@@ -13,7 +13,8 @@ def prepare_datasets(
     test_new_users=1,
     ds_name="facescrub",
     max_samples_train=1,
-    max_samples_test=5
+    max_samples_test=5,
+    flat_train=True
 ):
     dataset_dir=f"{BASE_DIR}/{ds_name}"
     train_dir = f"{dataset_dir}/train"
@@ -35,15 +36,26 @@ def prepare_datasets(
     i = 0
     for dir in os.listdir(train_dir):
         if str(dir) in to_train:
-            os.makedirs(f"{dest_train}/{i}", exist_ok=True)
-            for j, file in enumerate(os.listdir(f"{train_dir}/{dir}")):
+            if flat_train:
+                # os.makedirs(f"{dest_train}/{i}", exist_ok=True)
                 train_cls_mapping[dir] = i
-                if j < max_samples_train:
-                    # print(f"{train_dir}/{dir}/{file} to {dest_train}/{i}/{j}.jpg")
-                    shutil.copy(f"{train_dir}/{dir}/{file}", f"{dest_train}/{i}/{j}.jpg")
-                else:
-                    break
-            i += 1
+                for j, file in enumerate(os.listdir(f"{train_dir}/{dir}")):
+                    if j < max_samples_train:
+                        # print(f"{train_dir}/{dir}/{file} to {dest_train}/{i}/{j}.jpg")
+                        shutil.copy(f"{train_dir}/{dir}/{file}", f"{dest_train}/{i}_{j}.jpg")
+                    else:
+                        break
+                i += 1
+            else:
+                os.makedirs(f"{dest_train}/{i}", exist_ok=True)
+                train_cls_mapping[dir] = i
+                for j, file in enumerate(os.listdir(f"{train_dir}/{dir}")):
+                    if j < max_samples_train:
+                        # print(f"{train_dir}/{dir}/{file} to {dest_train}/{i}/{j}.jpg")
+                        shutil.copy(f"{train_dir}/{dir}/{file}", f"{dest_train}/{i}/{j}.jpg")
+                    else:
+                        break
+                i += 1
 
     train_max_idx = max(list(train_cls_mapping.values())) + 1
 
@@ -83,13 +95,15 @@ def prepare_datasets(
 @click.option("--ds_name", default="facescrub", help="Dataset name")
 @click.option("--max_samples_train", default=1, help="Max number of samples per class in training set")
 @click.option("--max_samples_test", default=5, help="Max number of samples per class in testing set")
+@click.option("--flat_train", default=True, help="Whether to flatten the training set")
 def main(
     train_samples,
     test_samples,
     test_new_users,
     ds_name,
     max_samples_train,
-    max_samples_test
+    max_samples_test,
+    flat_train
 ):
     prepare_datasets(
         train_samples=train_samples,
@@ -97,7 +111,8 @@ def main(
         test_new_users=test_new_users,
         ds_name=ds_name,
         max_samples_train=max_samples_train,
-        max_samples_test=max_samples_test
+        max_samples_test=max_samples_test,
+        flat_train=flat_train
     )
 
 
