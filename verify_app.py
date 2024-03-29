@@ -45,9 +45,6 @@ def count_metrics(
     print(report)
 
 
-
-
-
 @click.command()
 @click.option("--train_dir", "-t", required=True)
 @click.option("--test_dir", "-e", required=True)
