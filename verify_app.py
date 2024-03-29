@@ -38,7 +38,9 @@ def count_metrics(
             i * batch_size:min((i + 1) * batch_size, len(X_test))
         ]
         pred_y = app.identify(batch)
-        y_pred.extend(list(pred_y))
+        y_pred.extend(pred_y)
+    print("True", y_test)
+    print("Pred", y_pred)
     report = classification_report(y_test, y_pred)
     print(report)
 

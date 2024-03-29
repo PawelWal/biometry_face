@@ -34,7 +34,7 @@ class Classifier(ABC):
                     result.append(-1)
                 else:
                     result.append(self.classes[d])
-            return result
+            return [int(r) for r in result]
         return final_dec
 
     def verify_cls(self, x, y):
