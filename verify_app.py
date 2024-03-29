@@ -2,6 +2,7 @@ from src import FaceVer
 import click
 import os
 from sklearn.metrics import classification_report
+from math import ceil
 
 
 def count_metrics(
