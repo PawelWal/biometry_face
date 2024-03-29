@@ -47,11 +47,10 @@ class Classifier(ABC):
 class SVMClassifier(Classifier):
     def __init__(
         self,
-        decistion_th=0.5,
+        decistion_th=0.4,
         params={'gamma': 'auto'}):
         super().__init__(decistion_th)
         self.clf = make_pipeline(
-            StandardScaler(),
             SVC(**params, probability=True)
         )
 
