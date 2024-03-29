@@ -3,6 +3,7 @@ import numpy as np
 from .backbone import build_representation
 from importlib import import_module
 from time import time
+from collections import defaultdict
 
 
 class FaceVer:
@@ -12,7 +13,7 @@ class FaceVer:
         model_name="ArcFace",
         backbone = "deepface",
         classifier = "SVMClassifier",
-        decision_th=0.5,
+        decision_th=0.5
     ):
         self.model_name = model_name
         self.backbone = backbone
@@ -45,10 +46,20 @@ class FaceVer:
         self.__train(X_rep, y)
 
     def __train(self, X_rep, y):
-        self.classifier = getattr(
+        clf_class = getattr(
             import_module("src.classifier"),
             self.classifier_name
-        )(self.decision_th)
+        )
+        if self.classifier_name == "KNNClassifier":
+            classes_dict = defaultdict(int)
+            for cls in y:
+                classes_dict[cls] += 1
+            self.classifier = clf_class(
+                self.decision_th,
+                min(classes_dict.values())
+            )
+        else:
+            self.classifier = clf_class(self.decision_th)
         start = time()
         print(f"Training classifier {self.classifier_name} "
               f"with {len(X_rep)} and {len(set(y))} classes")

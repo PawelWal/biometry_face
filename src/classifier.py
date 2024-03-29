@@ -3,6 +3,7 @@ from sklearn.svm import SVC
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 
 
@@ -48,7 +49,8 @@ class SVMClassifier(Classifier):
     def __init__(
         self,
         decistion_th=0.4,
-        params={'gamma': 'auto'}):
+        params={'gamma': 'auto'}
+    ):
         super().__init__(decistion_th)
         self.clf = make_pipeline(
             StandardScaler(),
@@ -76,3 +78,24 @@ class DistanseClassifier(Classifier):
     def predict_with_probs(self, x):
         sim = cosine_similarity(self.X, x)
         return sim.T
+
+
+class KNNClassifier(Classifier):
+    def __init__(
+        self,
+        decistion_th=0.4,
+        n_neighbors=5,
+        params={}
+    ):
+        super().__init__(decistion_th)
+        params = {'n_neighbors': n_neighbors, **params}
+        self.clf = make_pipeline(
+            KNeighborsClassifier(**params)
+        )
+
+    def train(self, X, y):
+        self.clf.fit(X, y)
+        self.classes = self.clf.classes_
+
+    def predict_with_probs(self, x):
+        return self.clf.predict_proba(x)
