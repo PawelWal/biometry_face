@@ -30,7 +30,7 @@ def count_metrics(
                 y_test.append(cls)
             else:
                 y_test.append(-1) # unknown user
-            X_test.append(os.path.join(train_dir, cls, img))
+            X_test.append(os.path.join(test_dir, cls, img))
     y_pred = []
 
     for i in range(ceil(len(X_test) / batch_size)):
