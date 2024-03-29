@@ -27,7 +27,7 @@ def count_metrics(
     for cls in os.listdir(test_dir):
         for img in os.listdir(os.path.join(test_dir, cls)):
             if cls in app_classes:
-                y_test.append(cls)
+                y_test.append(int(cls))
             else:
                 y_test.append(-1) # unknown user
             X_test.append(os.path.join(test_dir, cls, img))
