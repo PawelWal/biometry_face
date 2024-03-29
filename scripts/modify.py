@@ -19,13 +19,13 @@ class Threshold:
 
     def is_satisfied(self, value):
         return self.from_value <= value <= self.to_value
-    
+
     def __str__(self) -> str:
         return f"{self.from_value}-{self.to_value}"
-    
+
     def __repr__(self) -> str:
         return f"{self.from_value}-{self.to_value}"
-    
+
 
 class Scale:
     def __init__(self, factor=0):
@@ -40,13 +40,13 @@ class QuadraticScale(Scale):
 
     def scale(self, value):
         return value ** 2
-    
+
     def __str__(self):
         return "QuadraticScale"
-    
+
     def __repr__(self):
         return "QuadraticScale"
-    
+
 
 class LinearScale(Scale):
     def __init__(self, factor=0):
@@ -54,33 +54,33 @@ class LinearScale(Scale):
 
     def scale(self, value):
         return value * self.factor
-    
+
     def __str__(self):
         return f"LinearScale_({round(self.factor, 2)})"
-    
+
     def __repr__(self):
         return f"LinearScale_({round(self.factor, 2)})"
-    
+
 class ConstantScale(Scale):
     def __init__(self, factor=0):
         super().__init__(factor)
 
     def scale(self, value):
         return value + self.factor
-    
+
     def __str__(self):
         return f"ConstantScale_({round(self.factor, 2)})"
-    
+
     def __repr__(self):
         return f"ConstantScale_({round(self.factor, 2)})"
-        
-    
+
+
 
 PSNR_NOISE_MAP = {
     50: 0.1,
     40: 0.8,
     30: 4.0,
-    20: 10.0,
+    20: 9.5,
     10: 50.0
 }
 
@@ -116,13 +116,13 @@ class BlurTransformation(Transformation):
         noise_level = PSNR_NOISE_MAP[psnr_threshold.from_value]
         noise = np.random.poisson(noise_level, img.shape).astype(np.uint8)
         result_img = cv2.add(deepcopy(img), noise)
-        
+
         if psnr_threshold.is_satisfied(cv2.PSNR(img, result_img)):
             return result_img
         else:
             print(f"{cv2.PSNR(img, result_img)} for {psnr_threshold}, noise_level {noise_level}")
             raise Exception("PSNR is not satisfied")
-        
+
 
 class LumTransformation(Transformation):
     def transform(self, img, scale=LinearScale(factor=0.5)):
@@ -130,7 +130,7 @@ class LumTransformation(Transformation):
         img_yuv = cv2.cvtColor(result_img, cv2.COLOR_BGR2YUV)
         y_channel = img_yuv[:,:,0]
         y_channel = np.array(y_channel, dtype=np.float32)
-        
+
         y_channel = scale.scale(y_channel)
 
         if isinstance(scale, QuadraticScale):
@@ -140,7 +140,7 @@ class LumTransformation(Transformation):
             y_channel = (y_channel - min_val) / (max_val - min_val) * 255
         else:
             y_channel = np.clip(y_channel, 0, 255)
-        
+
         img_yuv[:,:,0] = np.array(y_channel, dtype=np.uint8)
 
         return cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
@@ -187,4 +187,3 @@ def main(data_dir, tr, output_dir):
 
 
 main()
-    
