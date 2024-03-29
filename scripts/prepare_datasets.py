@@ -12,7 +12,7 @@ def prepare_datasets(
     test_samples=10,
     test_new_users=1,
     ds_name="facescrub",
-    max_samples_train=1,
+    max_samples_train=5,
     max_samples_test=5,
     flat_train=True
 ):
@@ -20,8 +20,8 @@ def prepare_datasets(
     train_dir = f"{dataset_dir}/train"
     test_dir = f"{dataset_dir}/validate"
     print(f"Train dir: {train_dir}, test dir: {test_dir}")
-    dest_train = f"{BASE_DIR}/subsamples/{ds_name}/train"
-    dest_test = f"{BASE_DIR}/subsamples/{ds_name}/test"
+    dest_train = f"{BASE_DIR}/subsamples1/{ds_name}/train"
+    dest_test = f"{BASE_DIR}/subsamples1/{ds_name}/test"
     os.makedirs(dest_train, exist_ok=True)
     os.makedirs(dest_test, exist_ok=True)
 

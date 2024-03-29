@@ -2,6 +2,8 @@ import os
 import numpy as np
 from .backbone import build_representation
 from importlib import import_module
+from time import time
+
 
 class FaceVer:
 
@@ -47,10 +49,12 @@ class FaceVer:
             import_module("src.classifier"),
             self.classifier_name
         )(self.decision_th)
-        print(f"Training classifier {self.classifier_name} with {len(X_rep)} and {len(set(y)} classes")
+        start = time()
+        print(f"Training classifier {self.classifier_name} "
+              f"with {len(X_rep)} and {len(set(y))} classes")
         self.classifier.train(X_rep, y)
         self.classes = self.classifier.classes
-        print("Training done")
+        print(f"Training done in {time() - start}")
 
     def add_user(
         self,
@@ -82,7 +86,7 @@ class FaceVer:
 
     def identify(
         self,
-        user_img,
+        user_img
     ):
         """
         Return the class of the user -1 if not found
