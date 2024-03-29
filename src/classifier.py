@@ -65,7 +65,7 @@ class SVMClassifier(Classifier):
         return self.clf.predict_proba(x)
 
 
-class DistanseClassifier(Classifier):
+class DistanceClassifier(Classifier):
 
     def __init__(self, decistion_th=0.9):
         super().__init__(decistion_th)
