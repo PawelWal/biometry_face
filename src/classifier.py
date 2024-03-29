@@ -51,6 +51,7 @@ class SVMClassifier(Classifier):
         params={'gamma': 'auto'}):
         super().__init__(decistion_th)
         self.clf = make_pipeline(
+            StandardScaler(),
             SVC(**params, probability=True)
         )
 
