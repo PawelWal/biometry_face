@@ -17,11 +17,12 @@ def build_representation_deepface(
     img_list,
     model_name="ArcFace"
 ):
-    img_arr = np.array(img_list)
-    resp_objs = DeepFace.represent(
-        img_path=img_arr,
-        model_name=model_name,
-        enforce_detection=False
-    )
+    resp_objs = []
+    for img in img_list:
+        resp_objs.append(DeepFace.represent(
+            img_path=img,
+            model_name=model_name,
+            enforce_detection=False
+        ))
     vectors = [resp_obj["embedding"] for resp_obj in resp_objs]
     return vectors
