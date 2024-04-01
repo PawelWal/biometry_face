@@ -28,6 +28,7 @@ class Classifier(ABC):
                 final_dec.append(d)
             else:
                 final_dec.append(-1)
+        print(final_dec)
         if self.classes is not None:
             result = []
             for d in final_dec:
