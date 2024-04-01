@@ -2,6 +2,7 @@ from deepface import DeepFace
 import click
 import os
 from sklearn.metrics import classification_report
+from time import time
 
 
 DATADIR = "../subsamples"
@@ -34,6 +35,7 @@ def evaluate(
 
     y_true = []
     y_pred = []
+    start = time()
     for dir in os.listdir(test_dir):
         for file in os.listdir(f"{test_dir}/{dir}"):
             try:
@@ -55,6 +57,7 @@ def evaluate(
             if dir in new_files and pred == -1:
                 pred = int(dir)
             y_pred.append(int(pred))
+    print("Time taken", time() - start)
     print(y_true)
     print(y_pred)
 
