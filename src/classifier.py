@@ -20,9 +20,9 @@ class Classifier(ABC):
         pass
 
     def predict(self, x):
-        print(f"Predicting {len(x)}")
+        # print(f"Predicting {len(x)}")
         res = self.predict_with_probs(x)
-        print("Result ", res)
+        # print("Result ", res)
         dec = np.argmax(res, axis=1)
         print("Decision ", dec)
         final_dec = []
@@ -79,6 +79,7 @@ class DistanceClassifier(Classifier):
         super().__init__(decistion_th)
 
     def train(self, X, y):
+        print(np.array(X).shape, np.array(y).shape)
         self.X = X
         self.y = y
         self.classes = y
