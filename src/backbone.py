@@ -25,7 +25,7 @@ def build_representation_deepface(
             resp_objs.extend(DeepFace.represent(
                 img_path=img,
                 model_name=model_name,
-                enforce_detection=False
+                enforce_detection=False,
                 detector_backend="dlib"
             ))
     vectors = [resp_obj["embedding"] for resp_obj in resp_objs]
