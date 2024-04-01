@@ -1,3 +1,3 @@
 from .app import FaceVer
-from .classifier import SVMClassifier, DistanseClassifier
+from .classifier import SVMClassifier, DistanceClassifier
 from .backbone import build_representation

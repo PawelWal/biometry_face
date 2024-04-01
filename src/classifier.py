@@ -34,6 +34,7 @@ class Classifier(ABC):
                 if d == -1:
                     result.append(-1)
                 else:
+                    print(d, self.classes)
                     result.append(self.classes[d])
             return [int(r) for r in result]
         return final_dec
@@ -74,6 +75,7 @@ class DistanceClassifier(Classifier):
         self.X = X
         self.y = y
         self.classes = y
+        print(self.classes)
 
     def predict_with_probs(self, x):
         sim = cosine_similarity(self.X, x)

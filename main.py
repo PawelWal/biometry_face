@@ -1,4 +1,4 @@
-from src.classifier import SVMClassifier, DistanseClassifier, KNNClassifier
+from src.classifier import SVMClassifier, DistanceClassifier, KNNClassifier
 # from src.app import FaceVer
 import numpy as np
 import click
@@ -6,9 +6,9 @@ import click
 
 def test():
     X = np.array([[-1, -1], [-2, -1], [1, 1], [2, 1], [3, 1], [3, 1]])
-    y = np.array([1, 1, 2, 2, 3, 3])
+    y = np.array([4, 4, 2, 2, 3, 3])
     # clf = SVMClassifier()
-    # clf = DistanseClassifier()
+    # clf = DistanceClassifier()
     clf = KNNClassifier()
     clf.train(X, y)
 
