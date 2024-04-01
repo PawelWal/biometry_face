@@ -20,7 +20,9 @@ class Classifier(ABC):
         pass
 
     def predict(self, x):
+        print(f"Predicting {len(x)}")
         res = self.predict_with_probs(x)
+        print("Result ", res)
         dec = np.argmax(res, axis=1)
         print("Decision ", dec)
         final_dec = []
