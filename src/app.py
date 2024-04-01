@@ -4,6 +4,7 @@ from .backbone import build_representation
 from importlib import import_module
 from time import time
 from collections import defaultdict
+from time import time
 
 
 class FaceVer:
@@ -40,7 +41,9 @@ class FaceVer:
                 y.append(cls)
 
         # Do shuffle???
+        start = time()
         X_rep = self.build_representation(X)
+        print(f"Building representation took {time() - start}")
         self.X_rep = X_rep
         self.y = y
         self.__train(X_rep, y)
