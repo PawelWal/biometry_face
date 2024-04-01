@@ -44,7 +44,7 @@ class FaceVer:
         assert np.array(X).shape[0] == np.array(y).shape[0]
         # Do shuffle???
         start = time()
-        X_rep = self.build_representation(X)
+        X_rep = self.build_representation(X) # zmienia liczbę przykładów z 1949 -> 1960 Dlaczego ???
         print(f"Building representation took {time() - start}")
         self.X_rep = X_rep
         self.y = y
