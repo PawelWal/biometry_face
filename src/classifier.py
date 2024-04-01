@@ -34,7 +34,6 @@ class Classifier(ABC):
                 if d == -1:
                     result.append(-1)
                 else:
-                    print(d, self.classes)
                     try:
                         result.append(self.classes[d])
                     except IndexError as e:
