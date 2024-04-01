@@ -37,7 +37,7 @@ class Classifier(ABC):
                     try:
                         result.append(self.classes[d])
                     except IndexError as e:
-                        print(d, self.classes)
+                        print(d, len(self.classes))
                         raise e
             return [int(r) for r in result]
         return final_dec
