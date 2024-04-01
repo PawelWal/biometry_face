@@ -40,8 +40,8 @@ class FaceVer:
                 X.append(os.path.join(train_dir, cls, img))
                 y.append(cls)
 
-        print(np.array(X).shape, np.array(y))
-        assert np.array(X).shape[0] == np.array(y)[0]
+        print(np.array(X).shape, np.array(y).shape)
+        assert np.array(X).shape[0] == np.array(y).shape[0]
         # Do shuffle???
         start = time()
         X_rep = self.build_representation(X)
