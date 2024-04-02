@@ -20,18 +20,14 @@ class Classifier(ABC):
         pass
 
     def predict(self, x):
-        # print(f"Predicting {len(x)}")
         res = self.predict_with_probs(x)
-        # print("Result ", res)
         dec = np.argmax(res, axis=1)
-        # print("Decision ", dec)
         final_dec = []
         for i, d in enumerate(dec):
             if res[i][d] >= self.decision_th:
                 final_dec.append(d)
             else:
                 final_dec.append(-1)
-        # print("Final dec", final_dec)
         if self.classes is not None:
             result = []
             for d in final_dec:

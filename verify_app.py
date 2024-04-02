@@ -9,6 +9,7 @@ def count_metrics(
     train_dir,
     test_dir,
     model_name="ArcFace",
+    detector_backend="opencv",
     backbone = "deepface",
     classifier = "SVMClassifier",
     decision_th=0.5,
@@ -17,6 +18,7 @@ def count_metrics(
     app = FaceVer(
         model_name,
         backbone,
+        detector_backend,
         classifier,
         decision_th
     )
@@ -39,16 +41,19 @@ def count_metrics(
         ]
         pred_y = app.identify(batch)
         y_pred.extend(pred_y)
-    print("True", y_test)
-    print("Pred", y_pred)
+    # print("True", y_test[:10])
+    # print("Pred", y_pred[:10])
     report = classification_report(y_test, y_pred)
     print(report)
+    with open(f"report_{model_name}_{classifier}.txt", "w") as f:
+        f.write(report)
 
 
 @click.command()
 @click.option("--train_dir", "-t", required=True)
 @click.option("--test_dir", "-e", required=True)
 @click.option("--model_name", "-m", default="ArcFace")
+@click.option("--detector_backend", "-db", default="opencv")
 @click.option("--backbone", "-b", default="deepface")
 @click.option("--classifier", "-c", default="SVMClassifier")
 @click.option("--decision_th", "-d", default=0.5)
@@ -57,6 +62,7 @@ def main(
     train_dir,
     test_dir,
     model_name,
+    detector_backend,
     backbone,
     classifier,
     decision_th,
@@ -66,6 +72,7 @@ def main(
         train_dir,
         test_dir,
         model_name,
+        detector_backend,
         backbone,
         classifier,
         decision_th,

@@ -13,11 +13,13 @@ class FaceVer:
         self,
         model_name="ArcFace",
         backbone = "deepface",
+        detector_backend = "opencv",
         classifier = "SVMClassifier",
         decision_th=0.5
     ):
         self.model_name = model_name
         self.backbone = backbone
+        self.detector_backend = detector_backend
         self.decision_th = decision_th
         self.backbone_instance = None
         self.classifier_name = classifier
@@ -30,7 +32,8 @@ class FaceVer:
         return build_representation(
             img_list,
             model_name=self.model_name,
-            method=self.backbone
+            method=self.backbone,
+            detector_backend=self.detector_backend
         )
 
     def train(self, train_dir):
@@ -40,11 +43,10 @@ class FaceVer:
                 X.append(os.path.join(train_dir, cls, img))
                 y.append(cls)
 
-        print(np.array(X).shape, np.array(y).shape)
-        assert np.array(X).shape[0] == np.array(y).shape[0]
+        assert np.array(X).shape[0] == np.array(y).shape[0] # sanity check
         # Do shuffle???
         start = time()
-        X_rep = self.build_representation(X) # zmienia liczbę przykładów z 1949 -> 1960 Dlaczego ???
+        X_rep = self.build_representation(X)
         print(f"Building representation took {time() - start}")
         self.X_rep = X_rep
         self.y = y

@@ -6,17 +6,19 @@ import numpy as np
 def build_representation(
     img_list,
     model_name="ArcFace",
-    method="deepface"
+    method="deepface",
+    detector_backend="opencv"
 ):
     if method == "deepface":
-        return build_representation_deepface(img_list, model_name)
+        return build_representation_deepface(img_list, model_name, detector_backend)
     else:
         raise NotImplementedError(f"Method {method} not implemented")
 
 
 def build_representation_deepface(
     img_list,
-    model_name="ArcFace"
+    model_name="ArcFace",
+    detector_backend="opencv"
 ):
     resp_objs = []
     with tf.device('/device:GPU:1'):
@@ -24,13 +26,13 @@ def build_representation_deepface(
             vector = DeepFace.represent(
                 img_path=img,
                 model_name=model_name,
-                enforce_detection=False
+                enforce_detection=False,
+                detector_backend=detector_backend
             )
             if len(vector) < 512:
                 resp_objs.append(vector[0])
             else:
                 resp_objs.append(vector)
-            # detector_backend="dlib"
     print("Input", len(img_list), "Output", len(resp_objs))
     vectors = [resp_obj["embedding"] for resp_obj in resp_objs]
     return vectors
