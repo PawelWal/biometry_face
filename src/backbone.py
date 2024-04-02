@@ -12,7 +12,7 @@ def build_representation(
     verbose=False
 ):
     if method == "deepface":
-        return build_representation_deepface(img_list, model_name, detector_backend)
+        return build_representation_deepface(img_list, model_name, detector_backend, verbose)
     else:
         raise NotImplementedError(f"Method {method} not implemented")
 
