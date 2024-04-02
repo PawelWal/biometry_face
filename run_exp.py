@@ -69,3 +69,6 @@ def main(
         mod_dirs,
         config
     )
+
+
+main()
