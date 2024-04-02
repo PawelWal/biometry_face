@@ -75,7 +75,6 @@ class DistanceClassifier(Classifier):
         super().__init__(decistion_th)
 
     def train(self, X, y):
-        print(np.array(X).shape, np.array(y).shape)
         self.X = X
         self.y = y
         self.classes = y

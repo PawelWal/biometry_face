@@ -50,6 +50,7 @@ class FaceVer:
         print(f"Building representation took {time() - start}")
         self.X_rep = X_rep
         self.y = y
+        assert np.array(X_rep).shape[0] == np.array(y).shape[0]
         self.__train(X_rep, y)
 
     def __train(self, X_rep, y):
