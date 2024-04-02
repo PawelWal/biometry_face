@@ -33,7 +33,7 @@ class FaceVer:
             img_list,
             model_name=self.model_name,
             method=self.backbone,
-            detector_backend=self.detector_backend
+            detector_backend=self.detector_backend,
             verbose=verbose
         )
 
