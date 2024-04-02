@@ -33,6 +33,5 @@ def build_representation_deepface(
                 resp_objs.append(vector[0])
             else:
                 resp_objs.append(vector)
-    print("Input", len(img_list), "Output", len(resp_objs))
     vectors = [resp_obj["embedding"] for resp_obj in resp_objs]
     return vectors
