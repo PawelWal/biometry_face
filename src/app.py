@@ -28,12 +28,13 @@ class FaceVer:
         self.X_rep = []
         self.y = []
 
-    def build_representation(self, img_list):
+    def build_representation(self, img_list, verbose=False):
         return build_representation(
             img_list,
             model_name=self.model_name,
             method=self.backbone,
             detector_backend=self.detector_backend
+            verbose=verbose
         )
 
     def train(self, train_dir):
@@ -46,7 +47,7 @@ class FaceVer:
         assert np.array(X).shape[0] == np.array(y).shape[0] # sanity check
         # Do shuffle???
         start = time()
-        X_rep = self.build_representation(X)
+        X_rep = self.build_representation(X, verbose=True)
         print(f"Building representation took {time() - start}")
         self.X_rep = X_rep
         self.y = y
