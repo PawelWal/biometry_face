@@ -77,11 +77,11 @@ class ConstantScale(Scale):
 
 
 PSNR_NOISE_MAP = {
-    50: 0.1,
-    40: 0.8,
-    30: 4.0,
-    20: 11.0,
-    10: 50.0
+    50: (0.7, 0.2),
+    40: (0.5, 0.4),
+    30: (0.4, 0.42),
+    20: (0.4, 0.5),
+    10: (0.35, 0.75)
 }
 
 TEST_FOR = {
@@ -113,14 +113,14 @@ class Transformation:
 
 class BlurTransformation(Transformation):
     def transform(self, img, psnr_threshold=Threshold(20, 30)):
-        noise_level = PSNR_NOISE_MAP[psnr_threshold.from_value]
-        noise = np.random.poisson(noise_level, img.shape).astype(np.uint8)
+        noise_loc, noise_scale = PSNR_NOISE_MAP[psnr_threshold.from_value]
+        noise = np.random.normal(noise_loc, noise_scale, img.shape).astype(np.uint8)
         result_img = cv2.add(deepcopy(img), noise)
 
         if psnr_threshold.is_satisfied(cv2.PSNR(img, result_img)):
             return result_img
         else:
-            print(f"{cv2.PSNR(img, result_img)} for {psnr_threshold}, noise_level {noise_level}")
+            print(f"{cv2.PSNR(img, result_img)} for {psnr_threshold}, noise_level {noise_loc, noise_scale}")
             raise Exception("PSNR is not satisfied")
 
 
