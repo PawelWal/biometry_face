@@ -10,13 +10,11 @@ class BiomUser(BaseModel):
 class BiomVerify(BaseModel):
     """User to verify."""
 
-    user_img : str | list[str]
-    user_cls : str | list[str]
+    user_img : str
+    user_cls : str
 
 
 class BiomIdentify(BaseModel):
     """User to identify."""
 
-    user_img : str | list[str]
-
-    
+    user_img : str
