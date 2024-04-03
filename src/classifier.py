@@ -23,7 +23,9 @@ class Classifier(ABC):
         res = self.predict_with_probs(x)
         dec = np.argmax(res, axis=1)
         final_dec = []
+        dec_max_probs = []
         for i, d in enumerate(dec):
+            dec_max_probs.append(res[i][d])
             if res[i][d] >= self.decision_th:
                 final_dec.append(d)
             else:
@@ -40,7 +42,7 @@ class Classifier(ABC):
                         print(d, len(self.classes))
                         raise e
             return [int(r) for r in result]
-        return final_dec
+        return final_dec, dec_max_probs
 
     def verify_cls(self, x, y):
         pred = self.predict(x)
