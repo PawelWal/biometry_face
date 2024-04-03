@@ -1,4 +1,4 @@
-from ..src import FaceVer
+from src import FaceVer
 
 def start_facever(
     model_name="ArcFace",
@@ -16,6 +16,6 @@ def start_facever(
             decision_th
         )
     return app
-    
+
 
 facever = start_facever()
