@@ -3,8 +3,8 @@ import logging
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from .logserver import configure_logger
-from .routers import biom_router
+from app.logserver import configure_logger
+from app.routers import biom_router
 
 configure_logger()
 log = logging.getLogger(__name__)
@@ -26,4 +26,3 @@ app.include_router(biom_router.router)
 async def root():
     """Endpoint for checking if api is alive."""
     return {"message": "Alive"}
-
