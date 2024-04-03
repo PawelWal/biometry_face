@@ -25,6 +25,7 @@ class FaceVer:
         self.classifier_name = classifier
         self.classifier = None
         self.classes = []
+        self.is_training = False
         self.X_rep = []
         self.y = []
 
@@ -38,6 +39,7 @@ class FaceVer:
         )
 
     def train(self, train_dir):
+        self.is_training = True
         X, y = [], []
         for cls in os.listdir(train_dir):
             for img in os.listdir(os.path.join(train_dir, cls)):
@@ -53,6 +55,8 @@ class FaceVer:
         self.y = y
         assert np.array(X_rep).shape[0] == np.array(y).shape[0]
         self.__train(X_rep, y)
+        self.is_training = False
+        print("Training done")
 
     def __train(self, X_rep, y):
         clf_class = getattr(

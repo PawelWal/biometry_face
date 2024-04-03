@@ -28,7 +28,7 @@ def add_user(
             }),
 ):
     """Adds new user to the system."""
-    if not facever.is_traning():
+    if not facever.is_training:
         return facever.add_user(user.user_dir)
     else:
         return WAITING_MSG
@@ -45,7 +45,7 @@ def verify_user(
             }),
 ):
     """Verifies user."""
-    if not facever.is_traning():
+    if not facever.is_training:
         return facever.verify(user.user_img, user.user_cls)
     else:
         return WAITING_MSG
@@ -61,11 +61,7 @@ def identify_user(
             }),
 ):
     """Identifies user."""
-    if not facever.is_traning():
+    if not facever.is_training:
         return facever.identify(user.user_img)
     else:
         return WAITING_MSG
-
-
-
-
