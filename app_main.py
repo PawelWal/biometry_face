@@ -35,6 +35,6 @@ def train_facever():
     """Train facever on startup."""
     log.info("Training facever.")
     facever.train(
-        "/home/bwalkow/repos/biometry_face/datasets/processed_celeb_subset/train"
+        "/home/bwalkow/repos/biometry_face/dataset/processed_celeb_subset/train"
     )
     log.info("Facever training complete.")
