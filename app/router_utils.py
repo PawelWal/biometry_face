@@ -5,7 +5,7 @@ def start_facever(
     detector_backend="ssd",
     backbone = "deepface",
     classifier = "DistanceClassifier",
-    decision_th=0.9,
+    decision_th=0.65,
 ):
     """Starts face verification system."""
     app = FaceVer(
