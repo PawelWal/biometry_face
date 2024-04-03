@@ -114,6 +114,7 @@ def main(
     count_metrics(
         train_dir,
         test_dir,
+        test_dir_unknown,
         model_name,
         detector_backend,
         backbone,
