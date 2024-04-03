@@ -9,6 +9,7 @@ router = APIRouter(
     prefix="/biom"
 )
 
+WAITING_MSG = "System is training, please wait."
 
 
 @router.get("/")
@@ -27,7 +28,10 @@ def add_user(
             }),
 ):
     """Adds new user to the system."""
-    return facever.add_user(user.user_dir)
+    if not facever.is_traning():
+        return facever.add_user(user.user_dir)
+    else:
+        return WAITING_MSG
 
 
 @router.post("/verify/",
@@ -41,7 +45,10 @@ def verify_user(
             }),
 ):
     """Verifies user."""
-    return facever.verify(user.user_img, user.user_cls)
+    if not facever.is_traning():
+        return facever.verify(user.user_img, user.user_cls)
+    else:
+        return WAITING_MSG
 
 
 @router.post("/identify/",
@@ -54,7 +61,10 @@ def identify_user(
             }),
 ):
     """Identifies user."""
-    return facever.identify(user.user_img)
+    if not facever.is_traning():
+        return facever.identify(user.user_img)
+    else:
+        return WAITING_MSG
 
 
 

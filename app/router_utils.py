@@ -2,9 +2,9 @@ from ..src import FaceVer
 
 def start_facever(
     model_name="ArcFace",
-    detector_backend="opencv",
+    detector_backend="ssd",
     backbone = "deepface",
-    classifier = "SVMClassifier",
+    classifier = "DistanceClassifier",
     decision_th=0.5,
 ):
     """Starts face verification system."""
@@ -17,4 +17,5 @@ def start_facever(
         )
     return app
     
+
 facever = start_facever()
