@@ -41,7 +41,7 @@ class Classifier(ABC):
                     except IndexError as e:
                         print(d, len(self.classes))
                         raise e
-            return [int(r) for r in result]
+            return [int(r) for r in result], max_probs
         return final_dec, max_probs
 
     def verify_cls(self, x, y):
