@@ -116,7 +116,7 @@ class BlurTransformation(Transformation):
         noise_loc, noise_scale = PSNR_NOISE_MAP[psnr_threshold.from_value]
         noise = np.random.normal(noise_loc, noise_scale, img.shape).astype(np.uint8)
         result_img = cv2.add(deepcopy(img), noise)
-
+        return result_img
         # if psnr_threshold.is_satisfied(cv2.PSNR(img, result_img)):
         #     return result_img
         # else:
