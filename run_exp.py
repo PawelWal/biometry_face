@@ -3,6 +3,7 @@ import click
 import os
 from sklearn.metrics import classification_report
 from math import ceil
+from .verify_app import count_metrics
 
 
 def test_on_dir(
@@ -44,10 +45,18 @@ def run_exp(
     )
     app.train(train_dir)
     for adv_dir in os.listdir(mod_dirs):
-        test_on_dir(
+        test_dir = os.path.join(mod_dirs, adv_dir, "test_known")
+        test_dir_unknown = os.path.join(mod_dirs, adv_dir, "test_unknown")
+        count_metrics(
             app,
-            os.path.join(mod_dirs, adv_dir)
+            test_dir,
+            test_dir_unknown,
+            batch_size=48
         )
+        # test_on_dir(
+        #     app,
+        #     os.path.join(mod_dirs, adv_dir)
+        # )
 
 
 @click.command()

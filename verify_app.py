@@ -4,30 +4,19 @@ import os
 from sklearn.metrics import classification_report
 from math import ceil
 import matplotlib.pyplot as plt
+import json
 
 
 def count_metrics(
-    train_dir,
+    app,
     test_dir,
     test_dir_unknown,
-    model_name="ArcFace",
-    detector_backend="opencv",
-    backbone = "deepface",
-    classifier = "SVMClassifier",
-    decision_th=0.5,
     batch_size=24,
 ):
-    app = FaceVer(
-        model_name,
-        backbone,
-        detector_backend,
-        classifier,
-        decision_th
-    )
-    app.train(train_dir)
-
-
     X_test, X_test_unknown, y_test = [], [], []
+    name = test_dir.split("/")[-1]
+    classifier = app.classifier_name
+    print(f"Testing {name} directory...")
     for cls in os.listdir(test_dir):
         for img in os.listdir(os.path.join(test_dir, cls)):
             y_test.append(int(cls))
@@ -80,14 +69,29 @@ def count_metrics(
     plt.ylabel('Data subset')
     legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
     legend.get_frame().set_facecolor('C0')
-    plt.savefig(f"metrics_{model_name}_{classifier}.png") 
+    plt.savefig(f"metrics/metrics_{classifier}_{name}.png")
 
     # print("True", y_test[:10])
     # print("Pred", y_pred[:10])
     report = classification_report(y_test, y_pred)
-    print(report)
-    with open(f"report_{model_name}_{classifier}.txt", "w") as f:
+    # print(report)
+    with open(f"metrics/report_{classifier}_{name}.txt", "w") as f:
         f.write(report)
+
+    cross_point = 0
+    for i, (x, y) in enumerate(zip(far, frr)):
+        if x <= y:
+            cross_point = i
+            break
+    res_dict = {
+        "name": f"{classifier}_{name}",
+        "far": far,
+        "frr": frr,
+        "cross_point": cross_point,
+        "threshold": threshold,
+    }
+    with open(f"metrics/metrics.jsonl", "a") as f:
+        f.write(json.dumps(res_dict) + "\n")
 
 
 @click.command()
@@ -95,11 +99,11 @@ def count_metrics(
 @click.option("--test_dir", "-e", required=True)
 @click.option("--test_dir_unknown", "-e", required=True)
 @click.option("--model_name", "-m", default="ArcFace")
-@click.option("--detector_backend", "-db", default="opencv")
+@click.option("--detector_backend", "-db", default="ssd")
 @click.option("--backbone", "-b", default="deepface")
-@click.option("--classifier", "-c", default="SVMClassifier")
-@click.option("--decision_th", "-d", default=0.5)
-@click.option("--bs", default=24)
+@click.option("--classifier", "-c", default="DistanceClassifier")
+@click.option("--decision_th", "-d", default=0.6)
+@click.option("--bs", default=48)
 def main(
     train_dir,
     test_dir,
@@ -111,15 +115,19 @@ def main(
     decision_th,
     bs,
 ):
+
+    app = FaceVer(
+        model_name,
+        backbone,
+        detector_backend,
+        classifier,
+        decision_th
+    )
+    app.train(train_dir)
     count_metrics(
-        train_dir,
+        app,
         test_dir,
         test_dir_unknown,
-        model_name,
-        detector_backend,
-        backbone,
-        classifier,
-        decision_th,
         bs
     )
 
