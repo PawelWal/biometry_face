@@ -46,7 +46,7 @@ def run_exp(
     app.train(train_dir)
     for adv_dir in os.listdir(mod_dirs):
         test_dir = os.path.join(mod_dirs, adv_dir, "test_known")
-        test_dir_unknown = os.path.join(mod_dirs, adv_dir, "test_unknown")
+        test_dir_unknown = os.path.join(mod_dirs, adv_dir, "test_unkown")
         count_metrics(
             app,
             test_dir,
