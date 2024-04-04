@@ -3,7 +3,7 @@ import click
 import os
 from sklearn.metrics import classification_report
 from math import ceil
-from .verify_app import count_metrics
+from src import FaceVer, count_metrics
 
 
 def test_on_dir(
