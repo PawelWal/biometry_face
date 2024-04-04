@@ -117,11 +117,11 @@ class BlurTransformation(Transformation):
         noise = np.random.normal(noise_loc, noise_scale, img.shape).astype(np.uint8)
         result_img = cv2.add(deepcopy(img), noise)
 
-        if psnr_threshold.is_satisfied(cv2.PSNR(img, result_img)):
-            return result_img
-        else:
-            print(f"{cv2.PSNR(img, result_img)} for {psnr_threshold}, noise_level {noise_loc, noise_scale}")
-            raise Exception("PSNR is not satisfied")
+        # if psnr_threshold.is_satisfied(cv2.PSNR(img, result_img)):
+        #     return result_img
+        # else:
+        #     print(f"{cv2.PSNR(img, result_img)} for {psnr_threshold}, noise_level {noise_loc, noise_scale}")
+        #     raise Exception("PSNR is not satisfied")
 
 
 class LumTransformation(Transformation):

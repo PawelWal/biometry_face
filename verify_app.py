@@ -71,7 +71,6 @@ def count_metrics(
     legend.get_frame().set_facecolor('C0')
     plt.savefig(f"metrics/metrics_{classifier}_{name}.png")
     report = classification_report(y_test, y_pred)
-    # print(report)
     with open(f"metrics/report_{classifier}_{name}.txt", "w") as f:
         f.write(report)
 
