@@ -70,9 +70,6 @@ def count_metrics(
     legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
     legend.get_frame().set_facecolor('C0')
     plt.savefig(f"metrics/metrics_{classifier}_{name}.png")
-
-    # print("True", y_test[:10])
-    # print("Pred", y_pred[:10])
     report = classification_report(y_test, y_pred)
     # print(report)
     with open(f"metrics/report_{classifier}_{name}.txt", "w") as f:
@@ -88,7 +85,6 @@ def count_metrics(
         "far": far,
         "frr": frr,
         "cross_point": cross_point,
-        "threshold": threshold,
     }
     with open(f"metrics/metrics.jsonl", "a") as f:
         f.write(json.dumps(res_dict) + "\n")
