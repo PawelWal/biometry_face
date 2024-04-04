@@ -14,7 +14,7 @@ def count_metrics(
     batch_size=24,
 ):
     X_test, X_test_unknown, y_test = [], [], []
-    name = test_dir.split("/")[-1]
+    name = test_dir.split("/")[-2]
     classifier = app.classifier_name
     print(f"Testing {name} directory...")
     for cls in os.listdir(test_dir):
@@ -115,7 +115,7 @@ def main(
     decision_th,
     bs,
 ):
-
+    print("Name", test_dir.split("/")[-2])
     app = FaceVer(
         model_name,
         backbone,
