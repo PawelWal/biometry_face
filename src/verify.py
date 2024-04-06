@@ -11,6 +11,8 @@ def count_metrics(
     app,
     test_dir,
     test_dir_unknown,
+    dev_dir,
+    dev_dir_unknown,
     batch_size=24,
 ):
     X_test, X_test_unknown, y_test, y_test_unknown = [], [], [], []
@@ -73,11 +75,7 @@ def count_metrics(
     legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
     legend.get_frame().set_facecolor('C0')
     plt.savefig(f"metrics/metrics_{classifier}_{name}.png")
-    y_test.extend(y_test_unknown)
-    y_pred.extend(y_pred_unknown)
-    report = classification_report(y_test, y_pred)
-    with open(f"metrics/report_{classifier}_{name}.txt", "w") as f:
-        f.write(report)
+
 
     cross_point = 0
     for i, (x, y) in enumerate(zip(far, frr)):
@@ -92,3 +90,28 @@ def count_metrics(
     }
     with open(f"metrics/metrics.jsonl", "a") as f:
         f.write(json.dumps(res_dict) + "\n")
+
+    X_test, y_test = [], []
+    for cls in os.listdir(dev_dir):
+        for img in os.listdir(os.path.join(dev_dir, cls)):
+            y_test.append(int(cls))
+            X_test.append(os.path.join(dev_dir, cls, img))
+
+    for cls in os.listdir(dev_dir_unknown):
+        for img in os.listdir(os.path.join(dev_dir_unknown, cls)):
+            X_test.append(os.path.join(dev_dir_unknown, cls, img))
+            y_test.append(-1)
+
+    y_pred = []
+
+    app.decision_th = cross_point / 100
+    for i in range(ceil(len(X_test) / batch_size)):
+        batch = X_test[
+            i * batch_size:min((i + 1) * batch_size, len(X_test))
+        ]
+        pred_y, proba = app.identify(batch)
+        y_pred.extend(pred_y)
+
+    report = classification_report(y_test, y_pred)
+    with open(f"metrics2/report_{classifier}_{name}.txt", "w") as f:
+        f.write(report)

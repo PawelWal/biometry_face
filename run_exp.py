@@ -1,3 +1,4 @@
+from fastapi.datastructures import Default
 from src import FaceVer
 import click
 import os
@@ -31,9 +32,15 @@ def test_on_dir(
         ]
         pred_y = app.identify(batch)
         y_pred.extend(pred_y)
-    report = classification_report(y_test, y_pred)
-    with open(f"reports/report_{name}.txt", "w") as f:
-        f.write(report)
+
+    # Counting on dev
+
+
+    # report = classification_report(y_test, y_pred)
+
+
+    # with open(f"reports/report_{name}.txt", "w") as f:
+    #     f.write(report)
 
 def run_exp(
     train_dir,
@@ -47,10 +54,14 @@ def run_exp(
     for adv_dir in os.listdir(mod_dirs):
         test_dir = os.path.join(mod_dirs, adv_dir, "test_known")
         test_dir_unknown = os.path.join(mod_dirs, adv_dir, "test_unkown")
+        dev_dir = os.path.join(mod_dirs, adv_dir, "dev_known")
+        dev_dir_unknown = os.path.join(mod_dirs, adv_dir, "dev_unknown")
         count_metrics(
             app,
             test_dir,
             test_dir_unknown,
+            dev_dir,
+            dev_dir_unknown,
             batch_size=48
         )
         # test_on_dir(
@@ -62,15 +73,17 @@ def run_exp(
 @click.command()
 @click.option("--train_dir", "-t", required=True)
 @click.option("--mod_dirs", "-m", required=True)
+@click.option("--cls", "-c", default="DistanceClassifier")
 def main(
     train_dir,
-    mod_dirs
+    mod_dirs,
+    cls
 ):
     config = {
         "model_name": "ArcFace",
         "detector_backend": "ssd",
         "backbone": "deepface",
-        "classifier": "DistanceClassifier",
+        "classifier": cls,
         "decision_th": 0.5,
     }
     run_exp(
