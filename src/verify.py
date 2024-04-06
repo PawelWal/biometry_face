@@ -113,5 +113,5 @@ def count_metrics(
         y_pred.extend(pred_y)
 
     report = classification_report(y_test, y_pred)
-    with open(f"metrics2/report_{classifier}_{name}.txt", "w") as f:
+    with open(f"metrics/report_{classifier}_{name}.txt", "w") as f:
         f.write(report)
