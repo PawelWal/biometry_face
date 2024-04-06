@@ -13,7 +13,7 @@ def count_metrics(
     test_dir_unknown,
     batch_size=24,
 ):
-    X_test, X_test_unknown, y_test = [], [], []
+    X_test, X_test_unknown, y_test, y_test_unknown = [], [], [], []
     name = test_dir.split("/")[-2]
     classifier = app.classifier_name
     print(f"Testing {name} directory...")
@@ -25,14 +25,17 @@ def count_metrics(
     for cls in os.listdir(test_dir_unknown):
         for img in os.listdir(os.path.join(test_dir_unknown, cls)):
             X_test_unknown.append(os.path.join(test_dir_unknown, cls, img))
+            y_test_unknown.append(-1)
 
-    y_proba_unknown = []
+
+    y_pred_unknown, y_proba_unknown = [], []
     for i in range(ceil(len(X_test_unknown) / batch_size)):
         batch = X_test_unknown[
             i * batch_size:min((i + 1) * batch_size, len(X_test_unknown))
         ]
         pred_y, proba = app.identify(batch)
         y_proba_unknown.extend(proba)
+        y_pred_unknown.extend(pred_y)
 
     y_pred = []
     y_proba = []
@@ -70,6 +73,8 @@ def count_metrics(
     legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
     legend.get_frame().set_facecolor('C0')
     plt.savefig(f"metrics/metrics_{classifier}_{name}.png")
+    y_test.extend(y_test_unknown)
+    y_pred.extend(y_pred_unknown)
     report = classification_report(y_test, y_pred)
     with open(f"metrics/report_{classifier}_{name}.txt", "w") as f:
         f.write(report)
