@@ -1,0 +1,14 @@
+src/__pycache__
+__pycache__/*
+=4.8*
+celeb*
+dataset*
+metrics*
+report*
+samples*
+subsamples*
+service.log
+wget-log*
+facescrub*
+processed_celeb.zip
+*__pycache__*
