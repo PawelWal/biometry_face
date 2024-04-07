@@ -11,7 +11,7 @@ class BiomVerify(BaseModel):
     """User to verify."""
 
     user_img : str
-    user_cls : str
+    user_cls : int
 
 
 class BiomIdentify(BaseModel):

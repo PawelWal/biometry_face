@@ -45,7 +45,7 @@ class Classifier(ABC):
         return final_dec, max_probs
 
     def verify_cls(self, x, y):
-        pred = self.predict(x)
+        pred, _ = self.predict(x)
         y = [y] if not isinstance(y, list) else y
         return [p == c for p, c in zip(pred, y)]
 

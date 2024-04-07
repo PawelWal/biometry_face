@@ -5,6 +5,7 @@ from importlib import import_module
 from time import time
 from collections import defaultdict
 from time import time
+from copy import deepcopy
 
 
 class FaceVer:
@@ -85,14 +86,19 @@ class FaceVer:
         user_dir,
     ):
         X, y = [], []
+        try:
+            user_cls = int(user_dir.split("/")[-1])
+        except ValueError:
+            raise ValueError(f"User directory must be a number, found {user_dir} instead")
+
         for img in os.listdir(user_dir):
             X.append(os.path.join(user_dir, img))
-            y.append(user_dir)
-
+            y.append(user_cls)
         X_rep = self.build_representation(X)
         self.X_rep.extend(X_rep)
         self.y.extend(y)
         self.__train(self.X_rep, self.y) # retrain with new user
+        return user_cls
 
     def verify(
         self,
