@@ -60,24 +60,24 @@ def count_metrics(
     frr = []
     threshold = []
     for cur_threshold in range(100):
-        num_far = 0
+        num_far_unk, num_far_mis = 0, 0
         num_frr = 0
         if test_dir_unknown is not None:
             for prob in y_proba_unknown:
                 if prob * 100 > cur_threshold:
-                    num_far += 1
+                    num_far_unk += 1
 
         for idx in miscls:
             if y_proba[idx] * 100 > cur_threshold:
-                num_far += 1
+                num_far_mis += 1
 
         for idx in right_indexes:
             if y_proba[idx] * 100 < cur_threshold:
                 num_frr += 1
         # far.append(num_far / len(y_proba_unknown))
-        far_mis.append(num_far)
+        far_mis.append(num_far_mis)
         if test_dir_unknown is not None:
-            far_unknown.append(num_far)
+            far_unknown.append(num_far_unk)
         frr.append(num_frr / len(y_test))
         threshold.append(cur_threshold / 100)
 
