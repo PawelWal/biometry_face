@@ -26,6 +26,11 @@ def main(
     bs,
     exclude_unknown=False
 ):
+    test_dir = os.path.join(data_dir, "test_known")
+    test_dir_unknown = os.path.join(data_dir, "test_unkown")
+    dev_dir = os.path.join(data_dir, "dev_known")
+    dev_dir_unknown = os.path.join(data_dir, "dev_unknown")
+    train_dir = os.path.join(data_dir, "train")
     print("Name", test_dir.split("/")[-2])
     app = FaceVer(
         model_name,
@@ -34,12 +39,7 @@ def main(
         classifier,
         decision_th
     )
-    train_dir = os.path.join(data_dir, "train")
     app.train(train_dir)
-    test_dir = os.path.join(data_dir, "test_known")
-    test_dir_unknown = os.path.join(data_dir, "test_unkown")
-    dev_dir = os.path.join(data_dir, "dev_known")
-    dev_dir_unknown = os.path.join(data_dir, "dev_unknown")
     count_metrics(
         app,
         test_dir,
