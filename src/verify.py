@@ -20,6 +20,7 @@ def count_metrics(
     X_test, X_test_unknown, y_test, y_test_unknown = [], [], [], []
     name = test_dir.split("/")[-2]
     classifier = app.classifier_name
+    name = name if test_dir_unknown is not None else f"{name}_unknown_excluded"
     print(f"Testing {name} directory...")
     for cls in os.listdir(test_dir):
         for img in os.listdir(os.path.join(test_dir, cls)):
