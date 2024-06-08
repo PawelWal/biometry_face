@@ -4,7 +4,7 @@ import numpy as np
 from tqdm import tqdm
 import torch
 from . import net
-from face_alignment import align
+from .face_alignment import align
 
 
 adaface_models = {
@@ -95,8 +95,15 @@ def build_representation_adaface(
     features = []
     for img in tqdm(img_list):
         aligned_rgb_img = align.get_aligned_face(img)
+        if aligned_rgb_img is None:
+            if verbose:
+                features.append(None)
+                continue
+            else:
+                features.append(np.zeros(512))
+                continue
         bgr_tensor_input = to_input(aligned_rgb_img)
         feature, _ = model(bgr_tensor_input)
-        features.append(feature)
+        features.append(feature.detach().reshape(-1))
 
     return features
