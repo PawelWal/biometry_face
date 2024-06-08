@@ -4,6 +4,7 @@ import numpy as np
 from tqdm import tqdm
 import torch
 import net
+from face_alignment import align
 
 
 adaface_models = {
@@ -19,6 +20,8 @@ def build_representation(
 ):
     if method == "deepface":
         return build_representation_deepface(img_list, model_name, detector_backend, verbose)
+    elif method == "adaface":
+        return build_representation_adaface(img_list, model_name, verbose)
     else:
         raise NotImplementedError(f"Method {method} not implemented")
 
@@ -85,7 +88,6 @@ def to_input(pil_rgb_image):
 def build_representation_adaface(
     img_list,
     model,
-    detector_backend=None,
     verbose=False
 ):
     model = load_pretrained_model('ir_18')
