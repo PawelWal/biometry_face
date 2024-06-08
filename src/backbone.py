@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 from tqdm import tqdm
 import torch
-import net
+from src import build_model
 from face_alignment import align
 
 
