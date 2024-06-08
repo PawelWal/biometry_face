@@ -33,7 +33,10 @@ def build_representation_deepface(
                 enforce_detection=False,
                 detector_backend=detector_backend
             )
-            if len(vector) < 512:
+            if len(vector) == 0:
+                # resp_objs.append({"embedding": np.zeros(512)}) # dummy fix
+                resp_objs.append({"embedding": None})
+            elif len(vector) < 512:
                 resp_objs.append(vector[0])
             else:
                 resp_objs.append(vector)
@@ -45,7 +48,10 @@ def build_representation_deepface(
                 enforce_detection=False,
                 detector_backend=detector_backend
             )
-            if len(vector) < 512:
+            if len(vector) == 0:
+                resp_objs.append({"embedding": np.zeros(512)}) # dummy fix
+                # resp_objs.append({"embedding": None})
+            elif len(vector) < 512:
                 resp_objs.append(vector[0])
             else:
                 resp_objs.append(vector)

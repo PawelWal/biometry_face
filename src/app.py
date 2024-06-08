@@ -50,12 +50,18 @@ class FaceVer:
         assert np.array(X).shape[0] == np.array(y).shape[0] # sanity check
         # Do shuffle???
         start = time()
-        X_rep = self.build_representation(X, verbose=True)
+        X_rep1 = self.build_representation(X, verbose=True)
+        X_rep, y1 = [], []
+        for x, z in zip(X_rep1, y):
+            if x is not None:
+                X_rep.append(x)
+                y1.append(z)
+        print(f"{len(X_rep)}, {len(y)}, {len(X_rep1)}, {len(y1)}")
         print(f"Building representation took {time() - start}")
         self.X_rep = X_rep
-        self.y = y
-        assert np.array(X_rep).shape[0] == np.array(y).shape[0]
-        self.__train(X_rep, y)
+        self.y = y1
+        assert np.array(X_rep).shape[0] == np.array(y1).shape[0]
+        self.__train(X_rep, y1)
         self.is_training = False
         print("Training done")
 
@@ -112,6 +118,13 @@ class FaceVer:
         if len(user_img) != len(user_cls):
             raise ValueError("Number of images and classes must be equal")
         user_rep = self.build_representation(user_img)
+        # ur = []
+        # for u in user_rep:
+        #     if u is not None:
+        #         ur.append(u)
+        #     else:
+        #         ur.append(np.zeros(512))
+        # ur = np.array(ur)
         return self.classifier.verify_cls(user_rep, user_cls)
 
     def identify(
@@ -125,4 +138,11 @@ class FaceVer:
             raise ValueError("Classifier is not trained yet")
         user_img = [user_img] if not isinstance(user_img, list) else user_img
         user_rep = self.build_representation(user_img)
+        # ur = []
+        # for u in user_rep:
+        #     if u is not None:
+        #         ur.append(u)
+        #     else:
+        #         ur.append(np.zeros(512))
+        # ur = np.array(ur)
         return self.classifier.predict(user_rep)
