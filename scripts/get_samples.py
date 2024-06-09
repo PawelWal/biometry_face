@@ -3,10 +3,10 @@ import shutil
 
 
 def get_samples():
-    base = "/home/bwalkow/repos/biometry_face/dataset/processed_celeb_subset"
-    train_path = "/home/bwalkow/repos/biometry_face/dataset/processed_celeb_subset/train"
-    test_path = "/home/bwalkow/repos/biometry_face/dataset/processed_celeb_subset/test1"
-    test1_path = "/home/bwalkow/repos/biometry_face/dataset/processed_celeb_subset/test_unkown"
+    base = "/mnt/data/pwalkow/biometria/processed_celeb_subset"
+    train_path = "/mnt/data/pwalkow/biometria/processed_celeb_subset/train"
+    test_path = "/mnt/data/pwalkow/biometria/processed_celeb_subset/test_known"
+    test1_path = "/mnt/data/pwalkow/biometria/processed_celeb_subset/test_unkown"
 
     # new_samples_path_train = "/home/bwalkow/repos/biometry_face/dataset/processed_celeb_new/train"
     # new_samples_path = "/home/bwalkow/repos/biometry_face/dataset/processed_celeb_new/test_known"
