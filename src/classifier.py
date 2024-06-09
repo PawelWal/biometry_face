@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
+import torch
 
 
 class Classifier(ABC):
@@ -26,6 +27,8 @@ class Classifier(ABC):
         max_probs = []
         for i, (d, x_rep) in enumerate(zip(dec, x)):
             max_probs.append(res[i][d])
+            if isinstance(x_rep, torch.Tensor):
+                x_rep = x_rep.numpy()
             if x_rep is None or not np.any(x_rep):  # if the input face is not detected
                 final_dec.append(-1)
             elif res[i][d] >= self.decision_th:

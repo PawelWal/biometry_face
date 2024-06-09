@@ -9,6 +9,7 @@ from .face_alignment import align
 
 adaface_models = {
     'ir_18':"/mnt/data/pwalkow/biometria/models/adaface_ir18_webface4m.ckpt",
+    'ir_101':"/mnt/data/pwalkow/biometria/models/adaface_ir101_webface4m.ckpt",
 }
 
 def build_representation(
