@@ -2,7 +2,7 @@ import os
 import shutil
 
 
-TINY_FACE_DIR = "/mnt/data/pwalkow/biometria/tinyface/Training_Set"
+TINY_FACE_DIR = "/mnt/data/pwalkow/biometria/tinyface/Test_Set"
 DEST_DIR = "/mnt/data/pwalkow/biometria/tinyface_splitted1"
 
 def convert_tiny_face(
