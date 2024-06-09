@@ -24,9 +24,11 @@ class Classifier(ABC):
         dec = np.argmax(res, axis=1)
         final_dec = []
         max_probs = []
-        for i, d in enumerate(dec):
+        for i, (d, x_rep) in enumerate(zip(dec, x)):
             max_probs.append(res[i][d])
-            if res[i][d] >= self.decision_th:
+            if not np.any(x_rep):  # if the input face is not detected
+                final_dec.append(-1)
+            elif res[i][d] >= self.decision_th:
                 final_dec.append(d)
             else:
                 final_dec.append(-1)
